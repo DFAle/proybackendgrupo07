@@ -10,6 +10,7 @@ app.use(cors({origin: 'http://localhost:4200'}));
 //app.use('/api/agente', require('./routes/agente.route.js'));
 app.use('/api/socio', require('./routes/socio.route'));
 app.use('/api/usuario', require('./routes/usuario.route.js'));
+app.use('/api/actividad', require('./routes/actividad.route.js'));
 app.set('port', process.env.PORT || 3000);
 //starting the server
 app.listen(app.get('port'), () => {
