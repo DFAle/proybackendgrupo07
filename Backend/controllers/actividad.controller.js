@@ -1,4 +1,7 @@
 const Actividad = require('../models/actividad');
+//const Actividad = require('../models/profesor');
+
+
 const actividadCtrl = {}
 
 actividadCtrl.getActividad = async (req, res) => {
@@ -52,5 +55,21 @@ actividadCtrl.deleteActividad = async (req, res) => {
         })
     }
 }
-
+actividadCtrl.createProfesor = async (req, res) => {
+    try {
+        const profesor = req.body;
+        const actividad = await Actividad.findById(req.params.id);
+        actividad.profesor.push(profesor);
+        await actividad.save();
+        res.json({
+            'status': '1',
+            'msg': 'Profesor guardado.'
+        })
+    }catch{
+        res.status(400).json({
+            'status': '0',
+            'msg': 'Error'
+        })
+    }
+}
 module.exports = actividadCtrl;

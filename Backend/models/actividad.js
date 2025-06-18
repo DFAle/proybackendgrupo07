@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const profesor = require('./profesor'); 
 const { Schema } = mongoose;
 const ActividadSchema = new Schema({
 
@@ -14,6 +15,7 @@ const ActividadSchema = new Schema({
         dia: { type: String, required: true },     // "Lunes", "Miércoles"
         horaInicial: { type: String, required: true },
         horaFinal: { type: String, required: true }       // "18:00", "19:30"
-    }]
+    }],
+    profesor:[{type: profesor.schema,ref: profesor}]
 })
 module.exports = mongoose.models.Actividad || mongoose.model('Actividad', ActividadSchema);

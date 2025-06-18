@@ -6,4 +6,6 @@ router.get("/", actividadCrtl.getActividad);
 router.post("/",actividadCrtl.createActividad);
 router.delete("/:id", actividadCrtl.deleteActividad);
 router.put("/:id",actividadCrtl.editActividad);
+router.post("/:id/actividad",actividadCrtl.createProfesor);
+
 module.exports = router;
