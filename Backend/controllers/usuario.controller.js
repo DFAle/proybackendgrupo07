@@ -1,3 +1,4 @@
+const rol = require("../models/rol");
 const Usuario = require("../models/usuario");
 const usuarioCtrl = {};
 
@@ -103,7 +104,7 @@ usuarioCtrl.deleteUsuario = async (req, res) => {
 
 /* Obtener todos los usuarios */
 usuarioCtrl.getUsuarios = async (req, res) => {
-  var usuarios = await Usuario.find();
+  var usuarios = await Usuario.find().populate('rol');
   res.json(usuarios);
 };
 
