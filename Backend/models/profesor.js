@@ -5,6 +5,8 @@ const ProfesorSchema = new Schema({
     apellido: { type: String, required: true },
     espcializacion:{type:String, required:true},
     foto: { type: String, required: true },
+    correo: { type: String, required: true },
+    telefono: { type: String, required: true },
     activo: { type: Boolean, required: true }
 })
 module.exports = mongoose.models.Profesor || mongoose.model('Profesor', ProfesorSchema);
