@@ -8,7 +8,10 @@ actividadCtrl.getActividad = async (req, res) => {
     var actividad = await Actividad.find();
     res.json(actividad);
 }
-
+actividadCtrl.getActividades = async (req, res) => {
+    const actividad = await Actividad.findById(req.params.idactividades).populate("profesor");
+    res.json(actividad);
+}
 actividadCtrl.createActividad = async (req, res) => {
     var actividad = new Actividad(req.body);
     try {
