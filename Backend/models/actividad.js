@@ -10,12 +10,12 @@ const ActividadSchema = new Schema({
     nivel: { type: String, required: true },
     cuposDisponibles: { type: Number, required: true },
     cantidadInscriptos: { type: Number, required: true },
-    //profesor: [{ type: Profesor.schema,ref: Profesor}],
+    profesor: [{ type: mongoose.Schema.Types.ObjectId, ref: 'profesor' }],
     horarios: [{
         dia: { type: String, required: true },     // "Lunes", "Miércoles"
         horaInicial: { type: String, required: true },
         horaFinal: { type: String, required: true }       // "18:00", "19:30"
     }],
-    profesor:[{type: profesor.schema,ref: profesor}]
+    //profesor:[{type: profesor.schema,ref: profesor}]
 })
 module.exports = mongoose.models.Actividad || mongoose.model('Actividad', ActividadSchema);
