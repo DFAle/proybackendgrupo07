@@ -52,4 +52,7 @@ profesorCtrl.editProfesor = async (req, res) => {
         })
     }
 }
+
+
+
 module.exports = profesorCtrl;

@@ -1,15 +1,9 @@
 const Actividad = require('../models/actividad');
-//const Actividad = require('../models/profesor');
-
 
 const actividadCtrl = {}
 
 actividadCtrl.getActividad = async (req, res) => {
     var actividad = await Actividad.find();
-    res.json(actividad);
-}
-actividadCtrl.getActividades = async (req, res) => {
-    const actividad = await Actividad.findById(req.params.idactividades).populate("profesor");
     res.json(actividad);
 }
 actividadCtrl.createActividad = async (req, res) => {
@@ -60,19 +54,20 @@ actividadCtrl.deleteActividad = async (req, res) => {
 }
 actividadCtrl.createProfesor = async (req, res) => {
     try {
-        const profesor = req.body;
+        const profesor = req.body; // { nombre, dni, email }
         const actividad = await Actividad.findById(req.params.id);
         actividad.profesor.push(profesor);
         await actividad.save();
         res.json({
-            'status': '1',
-            'msg': 'Profesor guardado.'
-        })
-    }catch{
+            status: '1',
+            msg: 'Profesor guardado en la actividad.'
+        });
+
+    } catch (error) {
         res.status(400).json({
-            'status': '0',
-            'msg': 'Error'
-        })
+            status: '0',
+            msg: 'Error al guardar profesor.'
+        });
     }
-}
+};
 module.exports = actividadCtrl;
