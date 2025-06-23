@@ -62,26 +62,26 @@ usuarioCtrl.createUsuario = async (req, res) => {
 //Mejorar método de editar
 /* Editar un Usuario */
 usuarioCtrl.editUsuario = async (req, res) => {
-  const { username } = req.body;
-  const existeUsuario = await Usuario.findOne({ username });
-  if (existeUsuario) {
-    res.status(400).json({
-      status: "0",
-      msg: "El nombre de usuario ya está en uso",
-    });
-  } else {
-    const vusuario = new Usuario(req.body);
-    await Usuario.updateOne({ _id: req.body._id }, vusuario);
-    res.json({
-      status: "1",
-      msg: "Usuario actualizado",
-    });
-  }
   try {
+    const id = req.params.id;
+    const updateData = req.body;
+    const result = await Usuario.updateOne({ _id: id }, updateData);
+    if (result.modifiedCount === 1) {
+      res.json({
+        status: "1",
+        msg: "Usuario actualizado correctamente"
+      });
+    } else {
+      res.status(400).json({
+        status: "0",
+        msg: "No se actualizó ningún usuario. Verifica el ID."
+      });
+    }
   } catch (error) {
     res.status(400).json({
       status: "0",
-      msg: "Error al actualizar un usuario",
+      msg: "Error al actualizar el usuario",
+      error: error.message
     });
   }
 };
