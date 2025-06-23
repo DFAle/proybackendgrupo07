@@ -36,21 +36,12 @@ usuarioCtrl.login = async (req, res) => {
 /* Crear Usuario */
 usuarioCtrl.createUsuario = async (req, res) => {
   try {
-    const { username } = req.body;
-    const existeUsuario = await Usuario.findOne({ username });
-    if (existeUsuario) {
-      res.status(400).json({
-        status: "0",
-        msg: "El nombre de usuario ya está en uso",
-      });
-    } else {
-      var usuario = new Usuario(req.body);
-      await usuario.save();
-      res.json({
-        status: "1",
-        msg: "Usuario Creado",
-      });
-    }
+    var username = new Usuario(req.body);
+    await username.save();
+    res.json({
+      status: "1",
+      msg: "Usuario Creado",
+    });
   } catch (error) {
     res.status(400).json({
       status: "0",
