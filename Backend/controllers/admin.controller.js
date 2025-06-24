@@ -47,7 +47,7 @@ const criteria = {
 usuario: req.body.usuario,
 contrasenia: req.body.contrasenia,
 }
-console.log(criteria);
+
 try {
 //el método findOne retorna un objeto que cumpla con los criterios de busqueda
 const user = await Admin.findOne(criteria)
