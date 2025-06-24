@@ -70,4 +70,18 @@ actividadCtrl.createProfesor = async (req, res) => {
         });
     }
 };
+
+/* Obtener por ID */
+actividadCtrl.getById = async (req, res) => {
+  try {
+    const profesor = await Actividad.find({ _id: req.params.id });
+    res.json(profesor);
+  } catch (error) {
+    res.status(400).json({
+      status: "0",
+      msg: "Error al buscar al actividad",
+    });
+  }
+};
+
 module.exports = actividadCtrl;
