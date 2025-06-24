@@ -51,7 +51,6 @@ console.log(criteria);
 try {
 //el método findOne retorna un objeto que cumpla con los criterios de busqueda
 const user = await Admin.findOne(criteria)
-console.log(Admin.findOne(criteria));
 if (!user) {
 res.json({
 status: 0,
@@ -61,7 +60,7 @@ msg: "not found"
 res.json({
 status: 1,
 msg: "success",
-username: user.username, //retorno información útil para el frontend
+username: user.usuario //retorno información útil para el frontend
 
 
 })
