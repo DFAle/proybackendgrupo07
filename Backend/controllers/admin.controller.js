@@ -1,4 +1,4 @@
-const Admin = require('../models/admin');
+const Admin = require('../models/admin'); // Importa el modelo de Admin
 const adminCtrl = {};
 
 //Carga todos los Admins.
@@ -40,5 +40,37 @@ adminCtrl.editAdmin = async (req, res) => {
         })
     }
 }
+adminCtrl.loginAdmin = async (req, res) => {
+//en req.body se espera que vengan las credenciales de login
+//defino los criterios de busqueda en base al username y password recibidos
+const criteria = {
+usuario: req.body.usuario,
+contrasenia: req.body.contrasenia,
+}
+console.log(criteria);
+try {
+//el método findOne retorna un objeto que cumpla con los criterios de busqueda
+const user = await Admin.findOne(criteria)
+console.log(Admin.findOne(criteria));
+if (!user) {
+res.json({
+status: 0,
+msg: "not found"
+})
+} else {
+res.json({
+status: 1,
+msg: "success",
+username: user.username, //retorno información útil para el frontend
 
+
+})
+}
+} catch (error) {
+res.json({
+status: 0,
+msg: 'error'
+})
+}
+}
 module.exports = adminCtrl;

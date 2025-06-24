@@ -4,5 +4,5 @@ const router = express.Router();
 router.get('/',adminCtrl.getAdmins);
 router.post('/',adminCtrl.createAdmin);
 router.put('/:_id',adminCtrl.editAdmin);
-
+router.post('/login', adminCtrl.loginAdmin);
 module.exports = router;
