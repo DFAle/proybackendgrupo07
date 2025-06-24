@@ -25,7 +25,7 @@ actividadCtrl.createActividad = async (req, res) => {
 actividadCtrl.editActividad = async (req, res) => {
     const actividad = new Actividad(req.body);
     try {
-        await Actividad.updateOne({ _id: req.body._id }, socio);
+        await Actividad.updateOne({ _id: req.body._id }, actividad);
         res.json({
             'status': '1',
             'msg': 'Actividad Actualizada'
