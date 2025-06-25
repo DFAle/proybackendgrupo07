@@ -5,7 +5,23 @@ profesorCtrl.getProfesor = async (req, res) => {
     var profesor = await Profesor.find();
     res.json(profesor);
 }
-
+profesorCtrl.getProfesorById = async (req, res) => {
+    try {
+        const profesor = await Profesor.findById(req.params.id);
+        if (!profesor) {
+            return res.status(404).json({
+                status: "0",
+                msg: "Profesor no encontrado",
+            });
+        }
+        res.json(profesor);
+    } catch (error) {
+        res.status(400).json({
+            status: "0",
+            msg: "Error al buscar al profesor",
+        });
+    }
+}
 profesorCtrl.createProfesor = async (req, res) => {
     var profesor = new Profesor(req.body);
     try {
