@@ -1,4 +1,11 @@
 const express = require('express');
+
+//referenciamos a la libreria de dontenv
+const dotenv = require("dotenv");
+
+//cargamos las variables de entorno, busca en el archivo oculto .env
+dotenv.config();
+
 const cors = require('cors');
 const {mongoose} = require('./database');
 var app = express();
@@ -15,6 +22,8 @@ app.use('/api/admin', require('./routes/admin.route.js'));
 app.use('/api/rol', require('./routes/rol.route.js'));
 app.use('/api/profesor', require('./routes/profesor.route.js'));
 
+//rutas para mercado pago
+app.use('/api/mp', require('./routes/mp.route.js'));
 
 app.set('port', process.env.PORT || 3000);
 //starting the server
