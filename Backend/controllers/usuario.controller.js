@@ -13,6 +13,7 @@ usuarioCtrl.login = async (req, res) => {
 
   try {
     const user = await Usuario.findOne(criterio).populate('rol');
+console.log(criterio);
 
     if (!user) {
       return res.json({
@@ -34,6 +35,7 @@ usuarioCtrl.login = async (req, res) => {
       username: user.username,
       userid: user._id,
       rol: user.rol.tipo 
+
     });
 
   } catch (error) {
