@@ -11,7 +11,7 @@ const {mongoose} = require('./database');
 var app = express();
 //middlewares
 app.use(express.json());
-app.use(cors({origin: 'http://localhost:4200'})); //http://localhost:4200 //https://clubacleticosantelmo.onrender.com
+app.use(cors({origin: 'https://clubacleticosantelmo.onrender.com'})); //http://localhost:4200 //https://clubacleticosantelmo.onrender.com
  
 //Cargamos el modulo de direccionamiento de rutas
 //app.use('/api/agente', require('./routes/agente.route.js'));
