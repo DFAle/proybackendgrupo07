@@ -4,27 +4,40 @@ const usuarioCtrl = {};
 
 /* Login de Usuario */
 usuarioCtrl.login = async (req, res) => {
-  //Definir los criterios de busqueda en base al nombre de usuario y contraseña
+
+
   const criterio = {
     username: req.body.username,
     password: req.body.password,
   };
+
   try {
-    const user = await Usuario.findOne(criterio); //Retorno un objeto que cumpla con el criterio
+    const user = await Usuario.findOne(criterio).populate('rol');
+console.log(criterio);
+
     if (!user) {
-      res.json({
+      return res.json({
         status: 0,
-        msg: "Las crendeciales no son correctas",
-      });
-    } else {
-      res.json({
-        status: 1,
-        msg: "Bienvenido, se ha logueado correctamente",
-        username: user.username, //retorno información útil para el frontend
-        rol: user.rol, //retorno información útil para el frontend
-        userid: user._id, //retorno información útil para el frontend
+        msg: "Las credenciales no son correctas",
       });
     }
+
+    if (!user.activo) {
+      return res.json({
+        status: 0,
+        msg: "El usuario está inactivo",
+      });
+    }
+
+    res.json({
+      status: 1,
+      msg: "Bienvenido, se ha logueado correctamente",
+      username: user.username,
+      userid: user._id,
+      rol: user.rol.tipo 
+
+    });
+
   } catch (error) {
     res.json({
       status: 0,
