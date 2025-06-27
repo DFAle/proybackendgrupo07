@@ -6,7 +6,7 @@ mpCtrl.getPaymentlink = async (req, res) => {
   try {
     const url = "https://api.mercadopago.com/checkout/preferences";
     const body = {
-      payer_email: "payer_email@gmail.com",
+      payer_email: "test_user_66312624@testuser.com",
       items: [
         {
           title: "Vasija grande",
@@ -50,8 +50,8 @@ mpCtrl.getSubscriptionLink = async (req, res) => {
         transaction_amount: 10000,
         currency_id: "ARS",
       },
-      back_url: "http://localhost:4200/returnpath",
-      payer_email: "payer_email@gmail.com@google.com",
+      back_url: "https://test-frontend.com/suscripcion-finalizada",
+      payer_email: "test_user_66312624@testuser.com",
     };
     const subscription = await axios.post(url, body, {
       headers: {
