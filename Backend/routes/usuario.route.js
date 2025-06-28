@@ -30,4 +30,8 @@ router.get("/:id", usuarioCtrl.getById);
 //Ruta para obtener un usuario por username
 router.get("/username/:username", usuarioCtrl.getByUsername);
 
+//Ruta para verificar email
+router.get("/email", usuarioCtrl.getByUsernameOrEmail);
+
+
 module.exports = router;
