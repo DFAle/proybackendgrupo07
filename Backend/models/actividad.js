@@ -14,5 +14,6 @@ const ActividadSchema = new Schema({
         horaFinal: { type: String, required: true }       // "18:00", "19:30"
     }],
     profesor: { type: Schema.Types.ObjectId, ref: 'Profesor', required: true },//un profesor por actividad
+    precio: { type: Number, required: true },
 })
 module.exports = mongoose.models.Actividad || mongoose.model('Actividad', ActividadSchema);

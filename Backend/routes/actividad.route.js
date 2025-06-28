@@ -6,7 +6,6 @@ router.get("/", actividadCrtl.getActividad);
 router.post("/",actividadCrtl.createActividad);
 router.delete("/:id", actividadCrtl.deleteActividad);
 router.put("/:id",actividadCrtl.editActividad);
-//router.post("/:id/profesor",actividadCrtl.createProfesor);
 //Ruta para obtener un actividad por ID
 router.get("/:id", actividadCrtl.getById);
 module.exports = router;
