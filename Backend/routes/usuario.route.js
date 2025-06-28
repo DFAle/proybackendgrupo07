@@ -9,11 +9,12 @@ const router = express.Router();
 //Ruta para guardar un Usuario
 router.post("/", usuarioCtrl.createUsuario);
 
-router.post("/ingresar",usuarioCtrl.loginByEmailOrUsername)
+//Ruta para el login con email o username
+router.post("/login",usuarioCtrl.loginByEmailOrUsername)
 
 
 //Ruta para el login
-router.post("/login", usuarioCtrl.login);
+//router.post("/login", usuarioCtrl.login);
 
 
 //Ruta para editar un Usuario por ID
