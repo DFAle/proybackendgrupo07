@@ -13,7 +13,7 @@ usuarioCtrl.login = async (req, res) => {
 
   try {
     const user = await Usuario.findOne(criterio).populate('rol');
-console.log(criterio);
+    console.log(criterio);
 
     if (!user) {
       return res.json({
@@ -34,7 +34,7 @@ console.log(criterio);
       msg: "Bienvenido, se ha logueado correctamente",
       username: user.username,
       userid: user._id,
-      rol: user.rol.tipo 
+      rol: user.rol.tipo
 
     });
 
@@ -153,21 +153,106 @@ usuarioCtrl.getByRol = async (req, res) => {
   }
 };
 
-/* Verificar email */
+/* Verifica si el usuario esta registrado en la plataforma a traves del correo */
 usuarioCtrl.getByUsernameOrEmail = async (req, res) => {
-  /*try {
-    const { correo } = req.query.correo;
+  try {
 
-    const usuario = await Usuario.find( correo );
-    res.json(usuario);
+    const { correo, username } = req.query;
+
+    const usuario = await Usuario.findOne({
+      $or: [
+        { correo: correo },
+        { username: username }
+      ]
+    });
+
+    respuesta = {
+      usuario: usuario,
+      registrado: usuario ? true : false
+    }
+
+    res.status(200).json(respuesta);
   } catch (error) {
-    res.status(400).json({
-      status: "0",
-      msg: "Error procesando la operacion.",
+    res.status(400).json(respuesta);
+  }
+
+  // console.log("funcion usuario email")
+};
+
+
+usuarioCtrl.loginByEmailOrUsername = async (req, res) => {
+  console.log("login con email o usuario")
+  const { login, password } = req.body; // Cambiamos de username a login (puede ser email o username)
+  console.log(login)
+  console.log(password)
+  if (!login || !password) {
+    return res.status(400).json({
+      status: 0,
+      msg: "Por favor proporcione credenciales completas"
     });
   }
-    */
-   console.log("funcion usuario email")
+
+  try {
+    // Primero determinamos si el login es un email
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(login);
+
+    // Creamos el criterio de búsqueda dinámico
+    const criterio = {
+      [isEmail ? 'correo' : 'username']: login,
+      password: password
+    };
+
+    const user = await Usuario.findOne(criterio).populate('rol');
+
+    if (!user) {
+      // Si no encontramos con el primer criterio, intentamos con el otro
+      const alternativeCriterio = {
+        [isEmail ? 'username' : 'correo']: login,
+        password: password
+      };
+
+      const alternativeUser = await Usuario.findOne(alternativeCriterio).populate('rol');
+
+      if (!alternativeUser) {
+        return res.status(401).json({
+          status: 0,
+          msg: "Las credenciales no son correctas"
+        });
+      }
+
+      // Si encontramos con el criterio alternativo
+      return handleSuccessfulLogin(res, alternativeUser);
+    }
+
+    // Si encontramos con el primer criterio
+    return handleSuccessfulLogin(res, user);
+
+  } catch (error) {
+    console.error("Error en login:", error);
+    res.status(500).json({
+      status: 0,
+      msg: "Error interno del servidor"
+    });
+  }
 };
+
+// Función auxiliar para manejar el login exitoso
+function handleSuccessfulLogin(res, user) {
+  if (!user.activo) {
+    return res.status(403).json({
+      status: 0,
+      msg: "El usuario está inactivo"
+    });
+  }
+
+  res.json({
+    status: 1,
+    msg: "Bienvenido, se ha logueado correctamente",
+    username: user.username,
+    userid: user._id,
+    rol: user.rol.tipo
+  });
+}
+
 
 module.exports = usuarioCtrl;
