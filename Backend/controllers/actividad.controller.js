@@ -6,6 +6,7 @@ actividadCtrl.getActividad = async (req, res) => {
     var actividad = await Actividad.find();
     res.json(actividad);
 }
+
 actividadCtrl.createActividad = async (req, res) => {
     var actividad = new Actividad(req.body);
     try {
@@ -15,28 +16,27 @@ actividadCtrl.createActividad = async (req, res) => {
             'msg': 'Actividad guardada.'
         })
     } catch (error) {
-        res.status(400).json({
+        res.status(404).json({
             'status': '0',
-            'msg': 'Error al guardad actividad.'
+            'error': error
         })
     }
 }
 
 actividadCtrl.editActividad = async (req, res) => {
-    const actividad = new Actividad(req.body);
     try {
-        await Actividad.updateOne({ _id: req.body._id }, actividad);
+        await Actividad.findByIdAndUpdate(req.body._id, req.body);
         res.json({
-            'status': '1',
-            'msg': 'Actividad Actualizada'
-        })
+            status: '1',
+            msg: 'Actividad actualizada'
+        });
     } catch (error) {
         res.status(400).json({
-            'status': '0',
-            'msg': 'Error procesando la operacion'
-        })
+            status: '0',
+            msg: 'Error al actualizar actividad'
+        });
     }
-}
+};
 
 actividadCtrl.deleteActividad = async (req, res) => {
     try {
@@ -52,7 +52,8 @@ actividadCtrl.deleteActividad = async (req, res) => {
         })
     }
 }
-actividadCtrl.createProfesor = async (req, res) => {
+
+/*actividadCtrl.createProfesor = async (req, res) => {
     try {
         const profesor = req.body; // { nombre, dni, email }
         const actividad = await Actividad.findById(req.params.id);
@@ -69,19 +70,51 @@ actividadCtrl.createProfesor = async (req, res) => {
             msg: 'Error al guardar profesor.'
         });
     }
-};
+};*/
 
 /* Obtener por ID */
 actividadCtrl.getById = async (req, res) => {
-  try {
-    const profesor = await Actividad.find({ _id: req.params.id });
-    res.json(profesor);
-  } catch (error) {
-    res.status(400).json({
-      status: "0",
-      msg: "Error al buscar al actividad",
-    });
-  }
+    try {
+        const actividad = await Actividad.findById(req.params.id)
+            .populate('profesor') // Opcional si querés traer los datos del profesor
+            .populate('inscriptos'); // Lo mismo para los inscriptos
+        res.json(actividad);
+    } catch (error) {
+        res.status(400).json({
+            status: "0",
+            msg: "Error al buscar la actividad",
+        });
+    }
+};
+
+actividadCtrl.inscribirUsuario = async (req, res) => {
+    const { usuarioId } = req.body;
+    const { id } = req.params;
+
+    try {
+        const actividad = await Actividad.findById(id);
+
+        if (!actividad) {
+            return res.status(404).json({ status: '0', msg: 'Actividad no encontrada' });
+        }
+
+        if (actividad.inscriptos.includes(usuarioId)) {
+            return res.status(400).json({ status: '0', msg: 'Ya estás inscripto en esta actividad.' });
+        }
+
+        if (actividad.inscriptos.length >= actividad.cuposDisponibles) {
+            return res.status(400).json({ status: '0', msg: 'No hay más cupos disponibles.' });
+        }
+
+        actividad.inscriptos.push(usuarioId);
+        await actividad.save();
+
+        return res.json({ status: '1', msg: 'Inscripción exitosa.' });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: '0', msg: 'Error en el servidor.' });
+    }
 };
 
 module.exports = actividadCtrl;
