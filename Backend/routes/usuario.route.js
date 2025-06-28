@@ -31,7 +31,7 @@ router.get("/:id", usuarioCtrl.getById);
 router.get("/username/:username", usuarioCtrl.getByUsername);
 
 //Ruta para verificar email
-router.get("/email", usuarioCtrl.getByUsernameOrEmail);
+router.get("/correo", usuarioCtrl.getByUsernameOrEmail);
 
 
 module.exports = router;

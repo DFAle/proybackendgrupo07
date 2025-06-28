@@ -155,7 +155,7 @@ usuarioCtrl.getByRol = async (req, res) => {
 
 /* Verificar email */
 usuarioCtrl.getByUsernameOrEmail = async (req, res) => {
-  try {
+  /*try {
     const { correo } = req.query.correo;
 
     const usuario = await Usuario.find( correo );
@@ -166,6 +166,8 @@ usuarioCtrl.getByUsernameOrEmail = async (req, res) => {
       msg: "Error procesando la operacion.",
     });
   }
+    */
+   console.log("funcion usuario email")
 };
 
 module.exports = usuarioCtrl;
