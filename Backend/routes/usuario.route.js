@@ -9,8 +9,13 @@ const router = express.Router();
 //Ruta para guardar un Usuario
 router.post("/", usuarioCtrl.createUsuario);
 
+//Ruta para el login con email o username
+router.post("/login",usuarioCtrl.loginByEmailOrUsername)
+
+
 //Ruta para el login
-router.post("/login", usuarioCtrl.login);
+//router.post("/login", usuarioCtrl.login);
+
 
 //Ruta para editar un Usuario por ID
 router.put("/:id", usuarioCtrl.editUsuario);
@@ -24,10 +29,16 @@ router.get("/rol", usuarioCtrl.getByRol);
 //Ruta para obtener todos los Usuarios
 router.get("/", usuarioCtrl.getUsuarios);
 
+//Ruta para verificar si el usuario esta registrado
+router.get("/registrado", usuarioCtrl.getByUsernameOrEmail);
+
 //Ruta para obtener un Usuario por ID
 router.get("/:id", usuarioCtrl.getById);
 
 //Ruta para obtener un usuario por username
 router.get("/username/:username", usuarioCtrl.getByUsername);
+
+
+
 
 module.exports = router;
