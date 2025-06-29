@@ -71,15 +71,16 @@ mpCtrl.getSubscriptionLink = async (req, res) => {
 mpCtrl.getQRPayment = async (req, res) => {
   try {
     const url = "https://api.mercadopago.com/checkout/preferences";
+    const {titulo,foto,detalle,nivel,precio} = req.body;
     const body = {
       items: [
         {
-          title: "Vasija grande",
-          description: "vasija grande medidas ....",
-          picture_url: "http://www.myapp.com/myimage.jpg",
-          category_id: "category123",
+          title: titulo,
+          description: detalle,
+          picture_url: foto,
+          category_id: 'category123',
           quantity: 1,
-          unit_price: 15000,
+          unit_price: precio,
         },
       ],
       back_urls: {
