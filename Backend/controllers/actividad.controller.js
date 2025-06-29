@@ -3,9 +3,9 @@ const Actividad = require('../models/actividad');
 const actividadCtrl = {}
 
 actividadCtrl.getActividad = async (req, res) => {
-    var actividad = await Actividad.find();
+    var actividad = await Actividad.find(req.id).populate('profesor')
     res.json(actividad);
-}
+};
 
 actividadCtrl.createActividad = async (req, res) => {
     var actividad = new Actividad(req.body);
@@ -13,7 +13,7 @@ actividadCtrl.createActividad = async (req, res) => {
         await actividad.save();
         res.json({
             'status': '1',
-            'msg': 'Actividad guardada.'
+            'msg': 'Actividad guardada.'    
         })
     } catch (error) {
         res.status(404).json({
