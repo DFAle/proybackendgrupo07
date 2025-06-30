@@ -72,6 +72,7 @@ mpCtrl.getQRPayment = async (req, res) => {
   try {
     const url = "https://api.mercadopago.com/checkout/preferences";
     const {titulo,foto,detalle,nivel,precio} = req.body;
+    console.log('👉 Datos recibidos del frontend:', { titulo, foto, detalle, nivel, precio });
     const body = {
       items: [
         {
@@ -83,11 +84,13 @@ mpCtrl.getQRPayment = async (req, res) => {
           unit_price: precio,
         },
       ],
+      external_reference: "6860839ad04ea0fe257e55a3",
       back_urls: {
-        failure: "http://localhost:4200/failure",
-        pending: "http://localhost:4200/pending",
-        success: "http://localhost:4200/success",
+        failure: "https://testing-eftf.onrender.com/home/pago/fallido",
+        pending: "https://testing-eftf.onrender.com/home/pago/pendiente",
+        success: "https://testing-eftf.onrender.com/home/pago/exitoso",
       },
+      auto_return: "approved"  // 👈 ¡AGREGÁ ESTA LÍNEA!
     };
 
     const payment = await axios.post(url, body, {
@@ -104,11 +107,40 @@ mpCtrl.getQRPayment = async (req, res) => {
       qr_code: `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrURL)}&size=200x200`
     });
   } catch (error) {
-    console.error(error.response?.data || error.message);
+    console.error(error.response?.data || error.message || error);
     return res.status(500).json({
       error: true,
       msg: "Failed to create QR payment",
     });
+  }
+};
+
+mpCtrl.confirmPayment = async (req, res) => {
+  try {
+    const { paymentId, externalReference } = req.body;
+
+    const response = await axios.get(
+      `https://api.mercadopago.com/v1/payments/${paymentId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+        },
+      }
+    );
+
+    const payment = response.data;
+
+    if (payment.status === 'approved') {
+      // ✅ Guardá en tu base de datos que se pagó esa actividad
+      console.log(`✔ Pago confirmado: ${paymentId}, ref: ${externalReference}`);
+      return res.status(200).json({ success: true });
+    } else {
+      return res.status(400).json({ success: false, msg: 'Pago no aprobado' });
+    }
+
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, msg: 'Error confirmando pago' });
   }
 };
 

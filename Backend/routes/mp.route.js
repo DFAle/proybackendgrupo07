@@ -9,5 +9,9 @@ router.post('/payment', mpCtrl.getPaymentlink);
 router.post('/subscription', mpCtrl.getSubscriptionLink);
 
 router.post('/qr', mpCtrl.getQRPayment);
+
+router.post('/confirm', mpCtrl.confirmPayment);
+
+
 //exportamos el modulo de rutas
 module.exports = router;
