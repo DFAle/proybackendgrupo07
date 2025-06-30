@@ -154,20 +154,21 @@ usuarioCtrl.getByRol = async (req, res) => {
 };
 
 /* Verifica si el usuario esta registrado en la plataforma a traves del correo */
-usuarioCtrl.getByUsernameOrEmail = async (req, res) => {
-  try {
+usuarioCtrl.checkByUsernameOrEmail = async (req, res) => {
 
-    const { correo, username } = req.query;
+  try {
+    console.log(req.body.login)
+    const login = req.body.login;
+    console.log(login);
 
     const usuario = await Usuario.findOne({
       $or: [
-        { correo: correo },
-        { username: username }
+        { username: login },
+        { correo: login }
       ]
     });
 
     respuesta = {
-      usuario: usuario,
       registrado: usuario ? true : false
     }
 
@@ -175,6 +176,7 @@ usuarioCtrl.getByUsernameOrEmail = async (req, res) => {
   } catch (error) {
     res.status(400).json(respuesta);
   }
+  console.log(respuesta)
 
   // console.log("funcion usuario email")
 };
