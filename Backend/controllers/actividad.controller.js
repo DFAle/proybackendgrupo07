@@ -13,7 +13,7 @@ actividadCtrl.createActividad = async (req, res) => {
         await actividad.save();
         res.json({
             'status': '1',
-            'msg': 'Actividad guardada.'    
+            'msg': 'Actividad guardada.'
         })
     } catch (error) {
         res.status(404).json({
@@ -52,25 +52,6 @@ actividadCtrl.deleteActividad = async (req, res) => {
         })
     }
 }
-
-/*actividadCtrl.createProfesor = async (req, res) => {
-    try {
-        const profesor = req.body; // { nombre, dni, email }
-        const actividad = await Actividad.findById(req.params.id);
-        actividad.profesor.push(profesor);
-        await actividad.save();
-        res.json({
-            status: '1',
-            msg: 'Profesor guardado en la actividad.'
-        });
-
-    } catch (error) {
-        res.status(400).json({
-            status: '0',
-            msg: 'Error al guardar profesor.'
-        });
-    }
-};*/
 
 /* Obtener por ID */
 actividadCtrl.getById = async (req, res) => {
