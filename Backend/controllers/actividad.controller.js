@@ -69,9 +69,8 @@ actividadCtrl.getById = async (req, res) => {
 };
 
 actividadCtrl.inscribirUsuario = async (req, res) => {
-    const { usuarioId } = req.body;
+    const { userid } = req.body;
     const { id } = req.params;
-
     try {
         const actividad = await Actividad.findById(id);
 
@@ -79,7 +78,7 @@ actividadCtrl.inscribirUsuario = async (req, res) => {
             return res.status(404).json({ status: '0', msg: 'Actividad no encontrada' });
         }
 
-        if (actividad.inscriptos.includes(usuarioId)) {
+        if (actividad.inscriptos.includes(userid)) {
             return res.status(400).json({ status: '0', msg: 'Ya estás inscripto en esta actividad.' });
         }
 
@@ -87,13 +86,12 @@ actividadCtrl.inscribirUsuario = async (req, res) => {
             return res.status(400).json({ status: '0', msg: 'No hay más cupos disponibles.' });
         }
 
-        actividad.inscriptos.push(usuarioId);
+        actividad.inscriptos.push(userid);
         await actividad.save();
 
         return res.json({ status: '1', msg: 'Inscripción exitosa.' });
 
     } catch (error) {
-        console.error(error);
         return res.status(500).json({ status: '0', msg: 'Error en el servidor.' });
     }
 };
