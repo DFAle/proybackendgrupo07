@@ -81,7 +81,7 @@ mpCtrl.getQRPayment = async (req, res) => {
           picture_url: foto,
           category_id: 'category123',
           quantity: 1,
-          unit_price: precio,
+          unit_price: Number(precio),
         },
       ],
       external_reference: "6860839ad04ea0fe257e55a3",
