@@ -13,7 +13,7 @@ var app = express();
 app.use(express.json());
 
 const corsOptions = {
-    origin: ['http://localhost:4200', 'https://clubacleticosantelmo.onrender.com'], // O agrega '*' para permitir todos los orígenes
+    origin: ['http://localhost:4200', 'https://clubacleticosantelmo.onrender.com','https://testing-eftf.onrender.com'], // O agrega '*' para permitir todos los orígenes
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 };
