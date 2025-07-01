@@ -86,9 +86,9 @@ mpCtrl.getQRPayment = async (req, res) => {
       ],
       external_reference: "6860839ad04ea0fe257e55a3",
       back_urls: {
-        failure: "https://testing-eftf.onrender.com/home/pago/fallido",
-        pending: "https://testing-eftf.onrender.com/home/pago/pendiente",
-        success: "https://testing-eftf.onrender.com/home/pago/exitoso",
+        failure: "https://clubacleticosantelmo.onrender.com/home/pago/fallido",
+        pending: "https://clubacleticosantelmo.onrender.com/home/pago/pendiente",
+        success: "https://clubacleticosantelmo.onrender.com/home/pago/exitoso",
       },
       auto_return: "approved"  // 👈 ¡AGREGÁ ESTA LÍNEA!
     };
