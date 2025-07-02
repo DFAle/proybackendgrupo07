@@ -69,7 +69,7 @@ actividadCtrl.getById = async (req, res) => {
 };
 
 actividadCtrl.inscribirUsuario = async (req, res) => {
-    const { userid } = req.body;
+    const { usuarioId } = req.body;
     const { id } = req.params;
     try {
         const actividad = await Actividad.findById(id);
@@ -78,7 +78,7 @@ actividadCtrl.inscribirUsuario = async (req, res) => {
             return res.status(404).json({ status: '0', msg: 'Actividad no encontrada' });
         }
 
-        if (actividad.inscriptos.includes(userid)) {
+        if (actividad.inscriptos.includes(usuarioId)) {
             return res.status(400).json({ status: '0', msg: 'Ya estás inscripto en esta actividad.' });
         }
 
@@ -86,13 +86,31 @@ actividadCtrl.inscribirUsuario = async (req, res) => {
             return res.status(400).json({ status: '0', msg: 'No hay más cupos disponibles.' });
         }
 
-        actividad.inscriptos.push(userid);
+        actividad.inscriptos.push(usuarioId);
         await actividad.save();
 
         return res.json({ status: '1', msg: 'Inscripción exitosa.' });
 
     } catch (error) {
         return res.status(500).json({ status: '0', msg: 'Error en el servidor.' });
+    }
+};
+
+actividadCtrl.actividadesDeUsuario = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const actividades = await Actividad.find({ inscriptos: userId });
+
+        if (actividades.length === 0) {
+            return res.status(404).json({ msg: 'El usuario no está inscripto en ninguna actividad' });
+        }
+
+        res.status(200).json(actividades);
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Error al obtener actividades del usuario',
+            error: error.message,
+        });
     }
 };
 

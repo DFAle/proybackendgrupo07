@@ -2,7 +2,10 @@ const actividadCrtl = require("../controllers/actividad.controller");
 const express = require("express");
 const router = express.Router();
 
+router.get('/usuario/:userId', actividadCrtl.actividadesDeUsuario);
 router.post('/suscribirse/:id', actividadCrtl.inscribirUsuario);
+
+
 
 // Luego las generales
 router.get("/", actividadCrtl.getActividad);
