@@ -1,4 +1,5 @@
 const rol = require("../models/rol");
+const usuario = require("../models/usuario");
 const Usuario = require("../models/usuario");
 const usuarioCtrl = {};
 
@@ -166,16 +167,19 @@ usuarioCtrl.checkByUsernameOrEmail = async (req, res) => {
         { username: login },
         { correo: login }
       ]
-    });
+    }).populate('rol');
 
     respuesta = {
-      registrado: usuario ? true : false
+      registrado: usuario ? true : false,
+      id: usuario ? usuario._id : null,
+      rol: usuario ? usuario.rol.tipo : null
     }
 
     res.status(200).json(respuesta);
   } catch (error) {
     res.status(400).json(respuesta);
   }
+  console.log(usuario)
   console.log(respuesta)
 
   // console.log("funcion usuario email")
