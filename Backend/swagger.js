@@ -23,7 +23,7 @@ const doc = {
             description: 'Operaciones relacionadas con las Actividades.'
         },
         {
-            name: 'Profesor',
+            name: 'Profesores',
             description: 'Operaciones relacionadas con los Profesores.'
         }
     ],
@@ -80,7 +80,7 @@ const doc = {
                 correo: 'mario@gmail.com',
                 telefono: '3884194234',
                 activo: true
-            },//un profesor por actividad
+            },
             precio: 20000,
         },
         Profesor: {

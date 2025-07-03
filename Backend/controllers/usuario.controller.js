@@ -3,50 +3,6 @@ const usuario = require("../models/usuario");
 const Usuario = require("../models/usuario");
 const usuarioCtrl = {};
 
-/* Login de Usuario */
-usuarioCtrl.login = async (req, res) => {
-
-
-  const criterio = {
-    username: req.body.username,
-    password: req.body.password,
-  };
-
-  try {
-    const user = await Usuario.findOne(criterio).populate('rol');
-    console.log(criterio);
-
-    if (!user) {
-      return res.json({
-        status: 0,
-        msg: "Las credenciales no son correctas",
-      });
-    }
-
-    if (!user.activo) {
-      return res.json({
-        status: 0,
-        msg: "El usuario está inactivo",
-      });
-    }
-
-    res.json({
-      status: 1,
-      msg: "Bienvenido, se ha logueado correctamente",
-      username: user.username,
-      userid: user._id,
-      rol: user.rol.tipo
-
-    });
-
-  } catch (error) {
-    res.json({
-      status: 0,
-      msg: "error",
-    });
-  }
-};
-
 /* Crear Usuario */
 usuarioCtrl.createUsuario = async (req, res) => {
     /*
