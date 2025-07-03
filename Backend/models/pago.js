@@ -9,8 +9,7 @@ const pagoSchema = new mongoose.Schema({
   emailComprador: String,
   fechaPago: Date,
   metodo: String,
-  comprobante: String
-}, {
+},{
   timestamps: true
 });
 

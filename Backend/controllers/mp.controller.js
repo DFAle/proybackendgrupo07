@@ -168,7 +168,6 @@ mpCtrl.confirmPayment = async (req, res) => {
         emailComprador: payment.payer.email,
         fechaPago: payment.date_approved,
         metodo: payment.payment_type_id,
-        comprobante: payment.statement_descriptor
       });
 
       await nuevoPago.save();
