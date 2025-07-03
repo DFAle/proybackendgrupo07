@@ -21,7 +21,7 @@
       "description": "Operaciones relacionadas con las Actividades."
     },
     {
-      "name": "Profesor",
+      "name": "Profesores",
       "description": "Operaciones relacionadas con los Profesores."
     }
   ],
@@ -396,7 +396,7 @@
         }
       }
     },
-    "/api/usuario/login": {
+    "/api/usuario/auth/login": {
       "post": {
         "tags": [
           "Usuarios"
@@ -1535,6 +1535,45 @@
         }
       }
     },
+    "/api/actividad/desuscribirse/{id}": {
+      "post": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "usuarioId": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/api/actividad/": {
       "get": {
         "description": "",
@@ -1710,45 +1749,1720 @@
     },
     "/api/rol/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Obtener todos los roles",
+        "description": "Endpoint para obtener el listado completo de roles disponibles en el sistema.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Listado de roles obtenido exitosamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "object"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "60c72b2f9f1b2c001c8e4d20"
+                            }
+                          }
+                        },
+                        "tipo": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "Administrador"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Error interno del servidor",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "0"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Error al cargar los roles"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Crear un nuevo rol",
+        "description": "Endpoint para registrar un nuevo rol en el sistema.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos del rol a crear",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "tipo": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Nombre/tipo del rol"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Administrador"
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": {
+                  "type": "array",
+                  "example": [
+                    "tipo"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Rol creado exitosamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "1"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Rol guardado"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Error en la creación",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "0"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Error al guardar el rol"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
     },
     "/api/rol/{id}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Roles"
+        ],
+        "summary": "Eliminar un rol",
+        "description": "Endpoint para eliminar un rol existente del sistema mediante su ID.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
+            "type": "string",
+            "description": "ID único del rol a eliminar",
+            "example": "60c72b2f9f1b2c001c8e4d20"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rol eliminado exitosamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "1"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Rol eliminado con éxito"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Rol no encontrado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "0"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Rol no encontrado"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "0"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Error al eliminar el rol"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profesor/": {
+      "get": {
+        "tags": [
+          "Profesores"
+        ],
+        "summary": "Obtener todos los profesores",
+        "description": "Endpoint para obtener el listado completo de profesores registrados en el sistema con toda su información.",
+        "responses": {
+          "200": {
+            "description": "Listado de profesores obtenido exitosamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "array"
+                },
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "example": "object"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "description": {
+                              "type": "string",
+                              "example": "ID único del profesor"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "60c72b2f9f1b2c001c8e4d21"
+                            }
+                          }
+                        },
+                        "nombre": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "description": {
+                              "type": "string",
+                              "example": "Nombre del profesor"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "Mario"
+                            }
+                          }
+                        },
+                        "apellido": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "description": {
+                              "type": "string",
+                              "example": "Apellido del profesor"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "Fariña"
+                            }
+                          }
+                        },
+                        "espcializacion": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "description": {
+                              "type": "string",
+                              "example": "Área de especialización del profesor"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "Natación"
+                            }
+                          }
+                        },
+                        "foto": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "description": {
+                              "type": "string",
+                              "example": "Nombre del archivo de foto del profesor"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "mario.jpg"
+                            }
+                          }
+                        },
+                        "correo": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "format": {
+                              "type": "string",
+                              "example": "email"
+                            },
+                            "description": {
+                              "type": "string",
+                              "example": "Correo electrónico del profesor"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "mario@gmail.com"
+                            }
+                          }
+                        },
+                        "telefono": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "string"
+                            },
+                            "description": {
+                              "type": "string",
+                              "example": "Número de teléfono del profesor"
+                            },
+                            "example": {
+                              "type": "string",
+                              "example": "3884194234"
+                            }
+                          }
+                        },
+                        "activo": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "example": "boolean"
+                            },
+                            "description": {
+                              "type": "string",
+                              "example": "Estado de actividad del profesor"
+                            },
+                            "example": {
+                              "type": "boolean",
+                              "example": true
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Profesores"
+        ],
+        "summary": "Crear nuevo profesor",
+        "description": "Endpoint para registrar un nuevo profesor en el sistema.",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos del profesor a registrar",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "nombre": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Nombre del profesor"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Mario"
+                        },
+                        "required": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    },
+                    "apellido": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Apellido del profesor"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Fariña"
+                        },
+                        "required": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    },
+                    "espcializacion": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Área de especialización"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Natación"
+                        },
+                        "required": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    },
+                    "foto": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Nombre del archivo de foto"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "mario.jpg"
+                        }
+                      }
+                    },
+                    "correo": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "format": {
+                          "type": "string",
+                          "example": "email"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Correo electrónico"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "mario@gmail.com"
+                        },
+                        "required": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    },
+                    "telefono": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Número de teléfono"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "3884194234"
+                        }
+                      }
+                    },
+                    "activo": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "boolean"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Estado de actividad"
+                        },
+                        "example": {
+                          "type": "boolean",
+                          "example": true
+                        },
+                        "default": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profesor creado exitosamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "1"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Profesor guardado."
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la creación",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "0"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Error procesando operacion."
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/profesor/{id}": {
+      "get": {
+        "tags": [
+          "Profesores"
+        ],
+        "summary": "Obtener profesor por ID",
+        "description": "Endpoint para obtener la información completa de un profesor específico mediante su ID único.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID único del profesor a buscar",
+            "example": "60c72b2f9f1b2c001c8e4d21"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profesor encontrado exitosamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "ID único del profesor"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "60c72b2f9f1b2c001c8e4d21"
+                        }
+                      }
+                    },
+                    "nombre": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Nombre del profesor"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Mario"
+                        }
+                      }
+                    },
+                    "apellido": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Apellido del profesor"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Fariña"
+                        }
+                      }
+                    },
+                    "espcializacion": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Área de especialización del profesor"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Natación"
+                        }
+                      }
+                    },
+                    "foto": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Nombre del archivo de foto del profesor"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "mario.jpg"
+                        }
+                      }
+                    },
+                    "correo": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "format": {
+                          "type": "string",
+                          "example": "email"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Correo electrónico del profesor"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "mario@gmail.com"
+                        }
+                      }
+                    },
+                    "telefono": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Número de teléfono del profesor"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "3884194234"
+                        }
+                      }
+                    },
+                    "activo": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "boolean"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Estado de actividad del profesor"
+                        },
+                        "example": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la búsqueda",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "0"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Error al buscar al profesor"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Profesor no encontrado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "0"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Profesor no encontrado"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Profesores"
+        ],
+        "summary": "Eliminar profesor",
+        "description": "Endpoint para eliminar un profesor del sistema mediante su ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID único del profesor a eliminar",
+            "example": "60c72b2f9f1b2c001c8e4d21"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profesor eliminado exitosamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "1"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Indicador de éxito (1=éxito)"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Profesor removed"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Mensaje de confirmación"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la eliminación",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "0"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Indicador de error (0=fallo)"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Error procesando la operacion"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Mensaje de error"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Profesores"
+        ],
+        "summary": "Actualizar profesor",
+        "description": "Endpoint para actualizar los datos de un profesor existente mediante su ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID único del profesor a actualizar",
+            "example": "60c72b2f9f1b2c001c8e4d21"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Datos del profesor a actualizar (solo incluir campos a modificar)",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "nombre": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Nombre del profesor"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Mario"
+                        }
+                      }
+                    },
+                    "apellido": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Apellido del profesor"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Fariña"
+                        }
+                      }
+                    },
+                    "espcializacion": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Área de especialización"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Natación"
+                        }
+                      }
+                    },
+                    "foto": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Nombre del archivo de foto"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "mario.jpg"
+                        }
+                      }
+                    },
+                    "correo": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "format": {
+                          "type": "string",
+                          "example": "email"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Correo electrónico"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "mario@gmail.com"
+                        }
+                      }
+                    },
+                    "telefono": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Número de teléfono"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "3884194234"
+                        }
+                      }
+                    },
+                    "activo": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "boolean"
+                        },
+                        "description": {
+                          "type": "string",
+                          "example": "Estado de actividad"
+                        },
+                        "example": {
+                          "type": "boolean",
+                          "example": true
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profesor actualizado exitosamente",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "1"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Profesor actualizado"
+                        }
+                      }
+                    },
+                    "profesor": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "object"
+                        },
+                        "properties": {
+                          "type": "object",
+                          "properties": {
+                            "_id": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "60c72b2f9f1b2c001c8e4d21"
+                                }
+                              }
+                            },
+                            "nombre": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "Mario"
+                                }
+                              }
+                            },
+                            "apellido": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "Fariña"
+                                }
+                              }
+                            },
+                            "espcializacion": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "Natación"
+                                }
+                              }
+                            },
+                            "foto": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "mario.jpg"
+                                }
+                              }
+                            },
+                            "correo": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "mario@gmail.com"
+                                }
+                              }
+                            },
+                            "telefono": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "string"
+                                },
+                                "example": {
+                                  "type": "string",
+                                  "example": "3884194234"
+                                }
+                              }
+                            },
+                            "activo": {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "example": "boolean"
+                                },
+                                "example": {
+                                  "type": "boolean",
+                                  "example": true
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "400": {
+            "description": "Error en la actualización",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "0"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Error procesando la operación"
+                        }
+                      }
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Mensaje detallado del error"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "404": {
+            "description": "Profesor no encontrado",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "example": "object"
+                },
+                "properties": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "0"
+                        }
+                      }
+                    },
+                    "msg": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "string"
+                        },
+                        "example": {
+                          "type": "string",
+                          "example": "Profesor no encontrado para actualizar"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/registroActividad/historial/usuario/{userId}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tipo",
+            "in": "query",
             "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "404": {
-            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -1756,28 +3470,7 @@
         }
       }
     },
-    "/api/profesor/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      }
-    },
-    "/api/profesor/{id}": {
+    "/api/registroActividad/{id}/historial": {
       "get": {
         "description": "",
         "parameters": [
@@ -1792,52 +3485,8 @@
           "200": {
             "description": "OK"
           },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      },
-      "delete": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      },
-      "put": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "404": {
-            "description": "Not Found"
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
@@ -1892,6 +3541,12 @@
                 },
                 "precio": {
                   "example": "any"
+                },
+                "actividadId": {
+                  "example": "any"
+                },
+                "userId": {
+                  "example": "any"
                 }
               }
             }
@@ -1900,6 +3555,12 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
