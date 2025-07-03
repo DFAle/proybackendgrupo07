@@ -84,7 +84,7 @@ mpCtrl.getPagos = async (req, res) => {
 mpCtrl.getQRPayment = async (req, res) => {
   try {
     const url = "https://api.mercadopago.com/checkout/preferences";
-    const { titulo, foto, detalle, nivel, precio, actividadId, userId } = req.body;
+    const { titulo, foto, detalle, nivel, precio } = req.body;
     console.log('👉 Datos recibidos del frontend:', { titulo, foto, detalle, nivel, precio });
     const actividad = await Actividad.findById(actividadId);
     if (!actividad) {
