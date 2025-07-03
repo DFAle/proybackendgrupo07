@@ -71,7 +71,15 @@ mpCtrl.getSubscriptionLink = async (req, res) => {
     });
   }
 };
-
+mpCtrl.getPagos = async (req, res) => {
+  try {
+    const pagos = await Pago.find().populate('userId').sort({ createdAt: -1 });
+    res.status(200).json(pagos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: 'Error al obtener los pagos' });
+  }
+};
 
 mpCtrl.getQRPayment = async (req, res) => {
   try {
