@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.get('/usuario/:userId', actividadCrtl.actividadesDeUsuario);
 router.post('/suscribirse/:id', actividadCrtl.inscribirUsuario);
+router.post('/desuscribirse/:id', actividadCrtl.darDeBajaUsuario);
 
 
 
