@@ -28,6 +28,7 @@ app.use('/api/actividad', require('./routes/actividad.route.js'));
 app.use('/api/admin', require('./routes/admin.route.js'));
 app.use('/api/rol', require('./routes/rol.route.js'));
 app.use('/api/profesor', require('./routes/profesor.route.js'));
+app.use('/api/registroActividad', require('./routes/registroActividad.route.js'));
 
 //rutas para mercado pago
 app.use('/api/mp', require('./routes/mp.route.js'));

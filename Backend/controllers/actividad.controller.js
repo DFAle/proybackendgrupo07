@@ -1,4 +1,5 @@
 const Actividad = require('../models/actividad');
+const RegistroActividad = require('../models/registroActividad');
 
 const actividadCtrl = {}
 
@@ -88,6 +89,12 @@ actividadCtrl.inscribirUsuario = async (req, res) => {
 
         actividad.inscriptos.push(usuarioId);
         await actividad.save();
+        
+        await RegistroActividad.create({
+            usuario: usuarioId,
+            actividad: id,
+            tipo: 'inscripcion'
+        });
 
         return res.json({ status: '1', msg: 'Inscripción exitosa.' });
 
