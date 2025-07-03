@@ -99,7 +99,7 @@ actividadCtrl.inscribirUsuario = async (req, res) => {
 actividadCtrl.actividadesDeUsuario = async (req, res) => {
     const { userId } = req.params;
     try {
-        const actividades = await Actividad.find({ inscriptos: userId });
+        const actividades = await Actividad.find().populate('inscriptos');
 
         if (actividades.length === 0) {
             return res.status(404).json({ msg: 'El usuario no está inscripto en ninguna actividad' });
