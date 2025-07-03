@@ -33,6 +33,11 @@ app.use('/api/registroActividad', require('./routes/registroActividad.route.js')
 //rutas para mercado pago
 app.use('/api/mp', require('./routes/mp.route.js'));
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger_output.json');
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
+
 app.set('port', process.env.PORT || 3000);
 //starting the server
 app.listen(app.get('port'), () => {

@@ -49,6 +49,41 @@ usuarioCtrl.login = async (req, res) => {
 
 /* Crear Usuario */
 usuarioCtrl.createUsuario = async (req, res) => {
+    /*
+  #swagger.tags = ['Usuarios']
+  #swagger.summary = 'Crear un nuevo usuario'
+  #swagger.description = 'Endpoint para registrar un nuevo usuario en el sistema.'
+  #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Datos del usuario a crear',
+    required: true,
+    schema: {
+      type: 'object',
+      additionalProperties: true
+    }
+  }
+  #swagger.responses[200] = {
+    description: 'Usuario creado exitosamente',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'string', example: '1' },
+        msg: { type: 'string', example: 'Usuario Creado' }
+      }
+    }
+  }
+  #swagger.responses[400] = {
+    description: 'Error al crear usuario',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'string', example: '0' },
+        msg: { type: 'string', example: 'Mensaje de error específico' }
+      }
+    }
+  }
+  */
+  
   try {
     var username = new Usuario(req.body);
     await username.save();
@@ -67,6 +102,58 @@ usuarioCtrl.createUsuario = async (req, res) => {
 //Mejorar método de editar
 /* Editar un Usuario */
 usuarioCtrl.editUsuario = async (req, res) => {
+    /*
+  #swagger.tags = ['Usuarios']
+  #swagger.summary = 'Actualizar un usuario'
+  #swagger.description = 'Endpoint para actualizar los datos de un usuario existente.'
+  #swagger.parameters['id'] = {
+    in: 'path',
+    name: 'id',
+    required: true,
+    description: 'ID del usuario a actualizar',
+    type: 'string'
+  }
+  #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Campos a actualizar',
+    required: true,
+    schema: {
+      type: 'object',
+      additionalProperties: true
+    }
+  }
+  #swagger.responses[200] = {
+    description: 'Actualización exitosa',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'string', example: '1' },
+        msg: { type: 'string', example: 'Usuario actualizado correctamente' }
+      }
+    }
+  }
+  #swagger.responses[400] = {
+    description: 'Error en la actualización',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'string', example: '0' },
+        msg: { type: 'string', example: 'No se actualizó ningún usuario. Verifica el ID.' }
+      }
+    }
+  }
+  #swagger.responses[400] = {
+    description: 'Error general',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'string', example: '0' },
+        msg: { type: 'string', example: 'Error al actualizar el usuario' },
+        error: { type: 'string', example: 'Mensaje de error detallado' }
+      }
+    }
+  }
+  */
   try {
     const id = req.params.id;
     const updateData = req.body;
@@ -93,6 +180,38 @@ usuarioCtrl.editUsuario = async (req, res) => {
 
 /* Eliminar Usuario */
 usuarioCtrl.deleteUsuario = async (req, res) => {
+    /*
+  #swagger.tags = ['Usuarios']
+  #swagger.summary = 'Eliminar un usuario'
+  #swagger.description = 'Endpoint para eliminar un usuario existente del sistema.'
+  #swagger.parameters['id'] = {
+    in: 'path',
+    name: 'id',
+    required: true,
+    description: 'ID del usuario a eliminar',
+    type: 'string'
+  }
+  #swagger.responses[200] = {
+    description: 'Usuario eliminado exitosamente',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'string', example: '1' },
+        msg: { type: 'string', example: 'Usuario eliminado' }
+      }
+    }
+  }
+  #swagger.responses[400] = {
+    description: 'Error al eliminar usuario',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'string', example: '0' },
+        msg: { type: 'string', example: 'Mensaje de error específico' }
+      }
+    }
+  }
+  */
   try {
     await Usuario.deleteOne({ _id: req.params.id });
     res.json({
@@ -109,12 +228,94 @@ usuarioCtrl.deleteUsuario = async (req, res) => {
 
 /* Obtener todos los usuarios */
 usuarioCtrl.getUsuarios = async (req, res) => {
+    /*
+  #swagger.tags = ['Usuarios']
+  #swagger.summary = 'Obtener listado de usuarios'
+  #swagger.description = 'Endpoint para obtener todos los usuarios registrados en el sistema con sus roles.'
+  #swagger.responses[200] = {
+    description: 'Listado de usuarios obtenido exitosamente',
+    schema: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          _id: { type: 'string', example: '60c72b2f9f1b2c001c8e4d1f' },
+          nombre: { type: 'string', example: 'Gustavo' },
+          apellido: { type: 'string', example: 'Cassano' },
+          dni: { type: 'string', example: '35786987' },
+          username: { type: 'string', example: 'cagus14' },
+          correo: { type: 'string', example: 'gustavo@gmail.com' },
+          activo: { type: 'boolean', example: true },
+          rol: {
+            type: 'object',
+            properties: {
+              _id: { type: 'string', example: '60c72b2f9f1b2c001c8e4d20' },
+              tipo: { type: 'string', example: 'Usuario' }
+            }
+          }
+        }
+      }
+    }
+  }
+  */
   var usuarios = await Usuario.find().populate('rol');
   res.json(usuarios);
 };
 
 /* Obtener por ID */
 usuarioCtrl.getById = async (req, res) => {
+  /*
+  #swagger.tags = ['Usuarios']
+  #swagger.summary = 'Obtener usuario por ID'
+  #swagger.description = 'Endpoint para obtener un usuario específico por su ID único.'
+  #swagger.parameters['id'] = {
+    in: 'path',
+    name: 'id',
+    required: true,
+    description: 'ID único del usuario a buscar',
+    type: 'string',
+    example: '60c72b2f9f1b2c001c8e4d1f'
+  }
+  #swagger.responses[200] = {
+    description: 'Usuario encontrado exitosamente',
+    schema: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          _id: { type: 'string', example: '60c72b2f9f1b2c001c8e4d1f' },
+          nombre: { type: 'string', example: 'Gustavo' },
+          apellido: { type: 'string', example: 'Cassano' },
+          dni: { type: 'string', example: '35786987' },
+          username: { type: 'string', example: 'cagus14' },
+          correo: { type: 'string', example: 'gustavo@gmail.com' },
+          activo: { type: 'boolean', example: true },
+          rol: { type: 'string', example: '60c72b2f9f1b2c001c8e4d20' }
+        }
+      }
+    }
+  }
+  #swagger.responses[400] = {
+    description: 'Error en la búsqueda',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'string', example: '0' },
+        msg: { type: 'string', example: 'Error al buscar al usuario' }
+      }
+    }
+  }
+  #swagger.responses[404] = {
+    description: 'Usuario no encontrado',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'string', example: '0' },
+        msg: { type: 'string', example: 'Usuario no encontrado' }
+      }
+    }
+  }
+  */
   try {
     const usuario = await Usuario.find({ _id: req.params.id });
     res.json(usuario);
@@ -154,9 +355,69 @@ usuarioCtrl.getByRol = async (req, res) => {
   }
 };
 
-/* Verifica si el usuario esta registrado en la plataforma a traves del correo */
 usuarioCtrl.checkByUsernameOrEmail = async (req, res) => {
 
+    /*
+  #swagger.tags = ['Usuarios']
+  #swagger.summary = 'Verificar existencia de usuario'
+  #swagger.description = 'Verifica si un usuario existe en el sistema mediante su nombre de usuario o correo electrónico.'
+  #swagger.consumes = ['application/json']
+  #swagger.produces = ['application/json']
+  #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Credenciales a verificar',
+    required: true,
+    schema: {
+      type: 'object',
+      required: ['login'],
+      properties: {
+        login: {
+          type: 'string',
+          description: 'Nombre de usuario o correo electrónico a verificar',
+          example: 'usuario@ejemplo.com'
+        }
+      }
+    }
+  }
+  #swagger.responses[200] = {
+    description: 'Resultado de la verificación',
+    schema: {
+      type: 'object',
+      properties: {
+        registrado: {
+          type: 'boolean',
+          description: 'Indica si el usuario está registrado',
+          example: true
+        },
+        id: {
+          type: 'string',
+          description: 'ID del usuario si está registrado',
+          example: '60c72b2f9f1b2c001c8e4d1f',
+          nullable: true
+        },
+        rol: {
+          type: 'string',
+          description: 'Rol del usuario si está registrado',
+          example: 'Administrador',
+          nullable: true
+        }
+      }
+    }
+  }
+  #swagger.responses[400] = {
+    description: 'Error en la solicitud',
+    schema: {
+      type: 'object',
+      properties: {
+        error: {
+          type: 'string',
+          description: 'Mensaje de error',
+          example: 'Error al verificar usuario'
+        }
+      }
+    }
+  }
+  */
   try {
     console.log(req.body.login)
     const login = req.body.login;
@@ -182,11 +443,94 @@ usuarioCtrl.checkByUsernameOrEmail = async (req, res) => {
   console.log(usuario)
   console.log(respuesta)
 
-  // console.log("funcion usuario email")
 };
 
 
+
+
 usuarioCtrl.loginByEmailOrUsername = async (req, res) => {
+   /*
+  #swagger.tags = ['Usuarios']
+  #swagger.summary = 'Iniciar sesión de usuario'
+  #swagger.description = 'Permite a un usuario autenticarse utilizando su correo electrónico o nombre de usuario y contraseña.'
+  #swagger.consumes = ['application/json']
+  #swagger.produces = ['application/json']
+  #swagger.parameters['body'] = {
+    in: 'body',
+    description: 'Credenciales de acceso',
+    required: true,
+    schema: {
+      type: 'object',
+      required: ['login', 'password'],
+      properties: {
+        login: {
+          type: 'string',
+          description: 'Correo electrónico o nombre de usuario',
+          example: 'usuario@ejemplo.com'
+        },
+        password: {
+          type: 'string',
+          format: 'password',
+          description: 'Contraseña del usuario',
+          example: 'MiContraseñaSegura123'
+        }
+      }
+    }
+  }
+  #swagger.responses[200] = {
+    description: 'Inicio de sesión exitoso',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'number', example: 1 },
+        msg: { type: 'string', example: 'Bienvenido, se ha logueado correctamente' },
+        username: { type: 'string', example: 'ejemploUser' },
+        userid: { type: 'string', example: '60c72b2f9f1b2c001c8e4d1f' },
+        rol: { type: 'string', example: 'Administrador' }
+      }
+    }
+  }
+  #swagger.responses[400] = {
+    description: 'Credenciales incompletas',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'number', example: 0 },
+        msg: { type: 'string', example: 'Por favor proporcione credenciales completas' }
+      }
+    }
+  }
+  #swagger.responses[401] = {
+    description: 'Credenciales incorrectas',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'number', example: 0 },
+        msg: { type: 'string', example: 'Las credenciales no son correctas' }
+      }
+    }
+  }
+  #swagger.responses[403] = {
+    description: 'Usuario inactivo',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'number', example: 0 },
+        msg: { type: 'string', example: 'El usuario está inactivo' }
+      }
+    }
+  }
+  #swagger.responses[500] = {
+    description: 'Error interno del servidor',
+    schema: {
+      type: 'object',
+      properties: {
+        status: { type: 'number', example: 0 },
+        msg: { type: 'string', example: 'Error interno del servidor' }
+      }
+    }
+  }
+  */
   console.log("login con email o usuario")
   const { login, password } = req.body; // Cambiamos de username a login (puede ser email o username)
   console.log(login)
