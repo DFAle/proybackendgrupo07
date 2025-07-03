@@ -71,7 +71,7 @@ mpCtrl.getSubscriptionLink = async (req, res) => {
 mpCtrl.getQRPayment = async (req, res) => {
   try {
     const url = "https://api.mercadopago.com/checkout/preferences";
-    const {titulo,foto,detalle,nivel,precio} = req.body;
+    const {titulo,foto,detalle,nivel,precio,actividadId,userId } = req.body;
     console.log('👉 Datos recibidos del frontend:', { titulo, foto, detalle, nivel, precio });
     const body = {
       items: [
@@ -84,7 +84,7 @@ mpCtrl.getQRPayment = async (req, res) => {
           unit_price: Number(precio),
         },
       ],
-      external_reference: "6860839ad04ea0fe257e55a3",
+        external_reference: `${userId}_${actividadId}`,
       back_urls: {
         failure: "https://clubacleticosantelmo.onrender.com/home/pago/fallido",
         pending: "https://clubacleticosantelmo.onrender.com/home/pago/pendiente",
