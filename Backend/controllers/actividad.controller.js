@@ -103,6 +103,38 @@ actividadCtrl.inscribirUsuario = async (req, res) => {
     }
 };
 
+actividadCtrl.darDeBajaUsuario = async (req, res) => {
+    const { usuarioId } = req.body;
+    const { id } = req.params;
+
+    try {
+        const actividad = await Actividad.findById(id);
+
+        if (!actividad) {
+            return res.status(404).json({ status: '0', msg: 'Actividad no encontrada' });
+        }
+
+        if (!actividad.inscriptos.includes(usuarioId)) {
+            return res.status(400).json({ status: '0', msg: 'El usuario no está inscripto en esta actividad.' });
+        }
+
+        actividad.inscriptos = actividad.inscriptos.filter(uid => uid.toString() !== usuarioId);
+        await actividad.save();
+
+        await RegistroActividad.create({
+            usuario: usuarioId,
+            actividad: id,
+            tipo: 'baja'
+        });
+
+        return res.json({ status: '1', msg: 'Baja registrada con éxito.' });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: '0', msg: 'Error en el servidor.' });
+    }
+};
+
 actividadCtrl.actividadesDeUsuario = async (req, res) => {
     const { userId } = req.params;
     try {
