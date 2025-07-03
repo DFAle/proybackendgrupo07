@@ -1,6 +1,7 @@
 const axios = require("axios");
 const Actividad = require('../models/actividad');
 const RegistroActividad = require('../models/registroActividad');
+const Pago = require('../models/pago'); 
 const mpCtrl = {};
 
 mpCtrl.getPaymentlink = async (req, res) => {
@@ -70,12 +71,20 @@ mpCtrl.getSubscriptionLink = async (req, res) => {
     });
   }
 };
-
+mpCtrl.getPagos = async (req, res) => {
+  try {
+    const pagos = await Pago.find().populate('userId').sort({ createdAt: -1 });
+    res.status(200).json(pagos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: 'Error al obtener los pagos' });
+  }
+};
 
 mpCtrl.getQRPayment = async (req, res) => {
   try {
     const url = "https://api.mercadopago.com/checkout/preferences";
-    const { titulo, foto, detalle, nivel, precio, actividadId, userId } = req.body;
+    const { titulo, foto, detalle, nivel, precio,actividadId, userId } = req.body;
     console.log('👉 Datos recibidos del frontend:', { titulo, foto, detalle, nivel, precio });
     const actividad = await Actividad.findById(actividadId);
     if (!actividad) {
@@ -155,8 +164,23 @@ mpCtrl.confirmPayment = async (req, res) => {
     const payment = response.data;
 
     if (payment.status === 'approved') {
-      // ✅ Guardá en tu base de datos que se pagó esa actividad
-      console.log(`✔ Pago confirmado: ${paymentId}, ref: ${externalReference}`);
+      // ✅ Extraer datos
+      const [userId, actividadId] = externalReference.split('_');
+
+      const nuevoPago = new Pago({
+        userId,
+        actividadId,
+        paymentId: payment.id,
+        status: payment.status,
+        monto: payment.transaction_amount,
+        emailComprador: payment.payer.email,
+        fechaPago: payment.date_approved,
+        metodo: payment.payment_type_id,
+      });
+
+      await nuevoPago.save();
+
+      console.log(`✔ Pago guardado en BD: ${payment.id}`);
       return res.status(200).json({ success: true });
     } else {
       return res.status(400).json({ success: false, msg: 'Pago no aprobado' });
