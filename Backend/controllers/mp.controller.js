@@ -127,11 +127,6 @@ mpCtrl.getQRPayment = async (req, res) => {
 
     const qrURL = payment.data.init_point;
     
-    await RegistroActividad.create({
-      usuario: userId,
-      actividad: actividadId,
-      tipo: 'inscripcion'
-    });
     return res.status(200).json({
       init_point: qrURL,
       qr_code: `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(qrURL)}&size=200x200`
