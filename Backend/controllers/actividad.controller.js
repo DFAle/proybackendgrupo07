@@ -89,7 +89,7 @@ actividadCtrl.inscribirUsuario = async (req, res) => {
 
         actividad.inscriptos.push(usuarioId);
         await actividad.save();
-        
+
         await RegistroActividad.create({
             usuario: usuarioId,
             actividad: id,
@@ -138,18 +138,28 @@ actividadCtrl.darDeBajaUsuario = async (req, res) => {
 actividadCtrl.actividadesDeUsuario = async (req, res) => {
     const { userId } = req.params;
     try {
-        const actividades = await Actividad.find().populate('inscriptos');
-
+        const actividades = await Actividad.find({ inscriptos: userId });
         if (actividades.length === 0) {
             return res.status(404).json({ msg: 'El usuario no está inscripto en ninguna actividad' });
         }
-
         res.status(200).json(actividades);
     } catch (error) {
         res.status(500).json({
             msg: 'Error al obtener actividades del usuario',
             error: error.message,
         });
+    }
+};
+
+actividadCtrl.historialPorUsuario = async (req, res) => {
+    const { userId } = req.params;
+    const filter = { usuario: userId };
+    try {
+        const historial = await RegistroActividad.find({usuario:userId}).populate('actividad').sort({ fecha: -1 });
+
+        res.json(historial);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 };
 
