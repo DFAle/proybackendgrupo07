@@ -127,9 +127,6 @@ mpCtrl.getQRPayment = async (req, res) => {
 
     const qrURL = payment.data.init_point;
     
-    actividad.inscriptos.push(userId);
-    await actividad.save();
-    
     await RegistroActividad.create({
       usuario: userId,
       actividad: actividadId,
