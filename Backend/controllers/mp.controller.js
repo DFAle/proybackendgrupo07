@@ -126,7 +126,7 @@ mpCtrl.getQRPayment = async (req, res) => {
     });
 
     const qrURL = payment.data.init_point;
-
+    
     actividad.inscriptos.push(userId);
     await actividad.save();
     
@@ -162,35 +162,37 @@ mpCtrl.confirmPayment = async (req, res) => {
     );
 
     const payment = response.data;
+    const [userId, actividadId] = externalReference.split('_');
 
-    if (payment.status === 'approved') {
-      // ✅ Extraer datos
-      const [userId, actividadId] = externalReference.split('_');
-
-      const nuevoPago = new Pago({
-        userId,
-        actividadId,
-        paymentId: payment.id,
-        status: payment.status,
-        monto: payment.transaction_amount,
-        emailComprador: payment.payer.email,
-        fechaPago: payment.date_approved,
-        metodo: payment.payment_type_id,
-      });
-
-      await nuevoPago.save();
-
-      console.log(`✔ Pago guardado en BD: ${payment.id}`);
-      return res.status(200).json({ success: true });
-    } else {
-      return res.status(400).json({ success: false, msg: 'Pago no aprobado' });
+    // ⚠️ Validar si ya existe el pago para no duplicar
+    const pagoExistente = await Pago.findOne({ paymentId: payment.id });
+    if (pagoExistente) {
+      return res.status(200).json({ success: true, msg: 'Pago ya registrado' });
     }
+
+    // ✅ Guardar el pago, independientemente del estado
+    const nuevoPago = new Pago({
+      userId,
+      actividadId,
+      paymentId: payment.id,
+      status: payment.status,
+      monto: payment.transaction_amount,
+      emailComprador: payment.payer.email,
+      fechaPago: payment.date_created,
+      metodo: payment.payment_type_id,
+    });
+
+    await nuevoPago.save();
+    console.log(`✔ Pago guardado en BD: ${payment.id} con estado: ${payment.status}`);
+
+    return res.status(200).json({ success: true });
 
   } catch (error) {
     console.error(error);
     return res.status(500).json({ success: false, msg: 'Error confirmando pago' });
   }
 };
+
 
 
 
