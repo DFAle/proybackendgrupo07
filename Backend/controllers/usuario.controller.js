@@ -273,8 +273,9 @@ usuarioCtrl.getById = async (req, res) => {
   }
   */
   try {
-    const usuario = await Usuario.find({ _id: req.params.id });
-    res.json(usuario);
+    const usuario = await Usuario.findById({ _id: req.params.id });
+    console.log(usuario);
+    res.status(200).json(usuario);
   } catch (error) {
     res.status(400).json({
       status: "0",
