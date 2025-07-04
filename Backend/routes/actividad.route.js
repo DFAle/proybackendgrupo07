@@ -9,6 +9,7 @@ router.post('/desuscribirse/:id', actividadCrtl.darDeBajaUsuario);
 
 
 // Luego las generales
+router.get('/historial/usuario/:userId', actividadCrtl.historialPorUsuario);
 router.get("/", actividadCrtl.getActividad);
 router.post("/", actividadCrtl.createActividad);
 router.delete("/:id", actividadCrtl.deleteActividad);

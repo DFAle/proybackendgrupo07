@@ -151,4 +151,16 @@ actividadCtrl.actividadesDeUsuario = async (req, res) => {
     }
 };
 
+actividadCtrl.historialPorUsuario = async (req, res) => {
+    const { userId } = req.params;
+    const filter = { usuario: userId };
+    try {
+        const historial = await RegistroActividad.find({usuario:userId}).populate('actividad').sort({ fecha: -1 });
+
+        res.json(historial);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
 module.exports = actividadCtrl;
